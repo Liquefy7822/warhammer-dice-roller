@@ -1,40 +1,25 @@
-import Head from 'next/head'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
+// pages/index.js
+
 import React, { useState } from 'react';
 
 const IndexPage = () => {
   const [diceCount, setDiceCount] = useState(1);
   const [modifier, setModifier] = useState(0);
   const [rolls, setRolls] = useState([]);
-  const [result, setResult] = useState(0);
+  const [results, setResults] = useState([]);
 
   const rollDice = () => {
-    let total = 0;
     let newRolls = [];
+    let newResults = [];
 
     for (let i = 0; i < diceCount; i++) {
       const rollValue = Math.floor(Math.random() * 6) + 1;
-      total += rollValue;
       newRolls.push(rollValue);
+      newResults.push(rollValue + modifier);
     }
 
-    total += modifier;
-    setResult(total);
     setRolls(newRolls);
-  };
-
-  const rerollDie = (index) => {
-    const newRolls = [...rolls];
-    newRolls[index] = Math.floor(Math.random() * 6) + 1;
-    setRolls(newRolls);
-
-    let total = 0;
-    newRolls.forEach((roll) => {
-      total += roll;
-    });
-    total += modifier;
-    setResult(total);
+    setResults(newResults);
   };
 
   const handleDiceCountChange = (e) => {
@@ -66,17 +51,14 @@ const IndexPage = () => {
         <ul>
           {rolls.map((roll, index) => (
             <li key={index}>
-              Roll {index + 1}: {roll}
-              <button onClick={() => rerollDie(index)}>Reroll</button>
+              Roll {index + 1}: {roll} + {modifier} = {results[index]}
             </li>
           ))}
         </ul>
-      </div>
-      <div>
-        <h2>Result: {result}</h2>
       </div>
     </div>
   );
 };
 
 export default IndexPage;
+
