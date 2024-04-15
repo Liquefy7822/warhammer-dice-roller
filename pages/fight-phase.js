@@ -94,7 +94,39 @@ const FightPhase = () => {
       </div>
       <button onClick={handleAttack}>Perform Attacks</button>
       <h3>Attack Results</h3>
-      {/* Display attack results here */}
+      <div>
+        <h4>Hits</h4>
+        <ul>
+          {hits.map((hit, index) => (
+            <li key={index}>Unit {index + 1}: {hit.roll} {hit.success ? "Success" : "Fail"}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h4>Wounds</h4>
+        <ul>
+          {wounds.map((wound, index) => (
+            <li key={index}>Unit {index + 1}: {wound.roll} {wound.success ? "Success" : "Fail"}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h4>Saves</h4>
+        <ul>
+          {saves.map((save, index) => (
+            <li key={index}>Unit {index + 1}: {save.roll} {save.success ? "Success" : "Fail"}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h4>Damage</h4>
+        <ul>
+          {damage.map((value, index) => (
+            <li key={index}>Unit {index + 1}: {value}</li>
+          ))}
+        </ul>
+      </div>
+      <p>Total Wounds: {totalWounds}</p>
       <Footer />
     </div>
   );
