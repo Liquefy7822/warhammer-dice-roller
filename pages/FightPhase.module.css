@@ -1,15 +1,16 @@
-/* FightPhase.module.css */
-
+/* styles/FightPhase.module.css */
 .container {
-    text-align: center;
-  }
-  
-  .resultsContainer {
-    display: flex;
-    justify-content: space-around;
-  }
-  
-  .column {
-    flex: 1;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resultContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.column {
+  margin: 0 10px;
+}
