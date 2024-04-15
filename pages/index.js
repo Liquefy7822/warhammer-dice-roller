@@ -1,6 +1,7 @@
 // pages/index.js
 
 import React, { useState } from 'react';
+import Footer from '../components/Footer'
 
 const IndexPage = () => {
   const [diceType, setDiceType] = useState("d6"); // State to track selected dice type
