@@ -86,11 +86,6 @@ const makeMove = () => {
           <button onClick={handleDesperateEscape}>Desperate Escape</button>
         )}
       </div>
-      <h2>Reinforcements Step</h2>
-      <button onClick={handleReinforcements}>Bring Units from Reserves</button>
-      {reinforcementsStep && (
-        <p>Logic for bringing units from reserves...</p>
-      )}
       <Footer />
     </div>
   );
