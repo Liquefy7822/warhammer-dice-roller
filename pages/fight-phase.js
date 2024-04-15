@@ -94,37 +94,55 @@ const FightPhase = () => {
       </div>
       <button onClick={handleAttack}>Perform Attacks</button>
       <h3>Attack Results</h3>
-      <div>
-        <h4>Hits</h4>
-        <ul>
-          {hits.map((hit, index) => (
-            <li key={index}>Unit {index + 1}: {hit.roll} {hit.success ? "Success" : "Fail"}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h4>Wounds</h4>
-        <ul>
-          {wounds.map((wound, index) => (
-            <li key={index}>Unit {index + 1}: {wound.roll} {wound.success ? "Success" : "Fail"}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h4>Saves</h4>
-        <ul>
-          {saves.map((save, index) => (
-            <li key={index}>Unit {index + 1}: {save.roll} {save.success ? "Success" : "Fail"}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h4>Damage</h4>
-        <ul>
-          {damage.map((value, index) => (
-            <li key={index}>Unit {index + 1}: {value}</li>
-          ))}
-        </ul>
+      <div className={styles.resultContainer}>
+        <div className={styles.column}>
+          <h4>Hits</h4>
+          <ul>
+            {hits.map((hit, index) => (
+              <li key={index}>Unit {index + 1}: {hit.roll} {hit.success ? "Success" : "Fail"}</li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.column}>
+          <h4>Wounds</h4>
+          <ul>
+            {wounds.map((wound, index) => (
+              <li key={index}>Unit {index + 1}: {wound.roll} {wound.success ? "Success" : "Fail"}</li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.column}>
+          <h4>Saves</h4>
+          <ul>
+            {saves.map((save, index) => (
+              <li key={index}>Unit {index + 1}: {save.roll} {save.success ? "Success" : "Fail"}</li>
+            ))}
+          </ul>
+        </div>
+        {fnPEnabled && (
+          <div className={styles.column}>
+            <h4>FNP</h4>
+            <ul>
+              {/* Display FNP rolls here */}
+            </ul>
+          </div>
+        )}
+        {invulEnabled && (
+          <div className={styles.column}>
+            <h4>Invul</h4>
+            <ul>
+              {/* Display Invul rolls here */}
+            </ul>
+          </div>
+        )}
+        <div className={styles.column}>
+          <h4>Damage</h4>
+          <ul>
+            {damage.map((value, index) => (
+              <li key={index}>Unit {index + 1}: {value}</li>
+            ))}
+          </ul>
+        </div>
       </div>
       <p>Total Wounds: {totalWounds}</p>
       <Footer />
@@ -133,3 +151,4 @@ const FightPhase = () => {
 };
 
 export default FightPhase;
+
