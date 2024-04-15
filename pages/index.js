@@ -1,6 +1,7 @@
 // pages/index.js
 
 import React, { useState } from 'react';
+import Header from '../components/Header'; // Import the Header component
 import Footer from '../components/Footer';
 
 const IndexPage = () => {
@@ -58,7 +59,7 @@ const IndexPage = () => {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1>Warhammer Dice Roller</h1>
+      <Header title="Warhammer Dice Roller" /> {/* Include the Header component */}
       <div>
         <label>
           Number of Dice:
@@ -95,4 +96,5 @@ const IndexPage = () => {
 };
 
 export default IndexPage;
+
 
