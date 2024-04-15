@@ -42,7 +42,7 @@ const IndexPage = () => {
   };
 
   return (
-    <div>
+    <div style={{ textAlign: 'center' }}>
       <h1>Warhammer Dice Roller</h1>
       <div>
         <label>
@@ -59,9 +59,9 @@ const IndexPage = () => {
       <button onClick={rollDice}>Roll Dice</button>
       <div>
         <h2>Rolls:</h2>
-        <ul>
+        <ul style={{ listStyleType: 'none', padding: 0 }}>
           {rolls.map((roll, index) => (
-            <li key={index}>
+            <li key={index} style={{ marginBottom: '10px' }}>
               Roll {index + 1}: {roll} + {modifier} = {results[index]}
               <button onClick={() => rerollDie(index)}>Reroll</button>
             </li>
@@ -73,4 +73,3 @@ const IndexPage = () => {
 };
 
 export default IndexPage;
-
