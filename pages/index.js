@@ -22,6 +22,17 @@ const IndexPage = () => {
     setResults(newResults);
   };
 
+  const rerollDie = (index) => {
+    const newRolls = [...rolls];
+    const newResults = [...results];
+
+    newRolls[index] = Math.floor(Math.random() * 6) + 1;
+    newResults[index] = newRolls[index] + modifier;
+
+    setRolls(newRolls);
+    setResults(newResults);
+  };
+
   const handleDiceCountChange = (e) => {
     setDiceCount(parseInt(e.target.value));
   };
@@ -52,6 +63,7 @@ const IndexPage = () => {
           {rolls.map((roll, index) => (
             <li key={index}>
               Roll {index + 1}: {roll} + {modifier} = {results[index]}
+              <button onClick={() => rerollDie(index)}>Reroll</button>
             </li>
           ))}
         </ul>
