@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import styles from './FightPhase.module.css'; // Import CSS file for styling
 
 const FightPhase = () => {
   const [unitCount, setUnitCount] = useState(1);
@@ -50,7 +51,7 @@ const FightPhase = () => {
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div className={styles.container}>
       <Header title="Fight Phase" />
       <h2>Unit Attacking</h2>
       <div>
@@ -61,37 +62,39 @@ const FightPhase = () => {
       </div>
       <button onClick={handleAttack}>Perform Attacks</button>
       <h3>Attack Results</h3>
-      <div>
-        <p>Hits:</p>
-        <ul>
-          {hits.map((hit, index) => (
-            <li key={index}>
-              Roll: {hit.roll} - {hit.success ? 'Success' : 'Fail'}
-              {hit.isCritical && ' (Critical Hit)'}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <p>Wounds:</p>
-        <ul>
-          {wounds.map((wound, index) => (
-            <li key={index}>
-              Roll: {wound.roll} - {wound.success ? 'Success' : 'Fail'}
-              {wound.isCritical && ' (Critical Wound)'}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <p>Saves:</p>
-        <ul>
-          {saves.map((save, index) => (
-            <li key={index}>
-              Roll: {save.roll} - {save.success ? 'Success' : 'Fail'}
-            </li>
-          ))}
-        </ul>
+      <div className={styles.resultsContainer}>
+        <div className={styles.column}>
+          <p>Hits:</p>
+          <ul>
+            {hits.map((hit, index) => (
+              <li key={index}>
+                Roll: {hit.roll} - {hit.success ? 'Success' : 'Fail'}
+                {hit.isCritical && ' (Critical Hit)'}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.column}>
+          <p>Wounds:</p>
+          <ul>
+            {wounds.map((wound, index) => (
+              <li key={index}>
+                Roll: {wound.roll} - {wound.success ? 'Success' : 'Fail'}
+                {wound.isCritical && ' (Critical Wound)'}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.column}>
+          <p>Saves:</p>
+          <ul>
+            {saves.map((save, index) => (
+              <li key={index}>
+                Roll: {save.roll} - {save.success ? 'Success' : 'Fail'}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <p>Total Wounds Inflicted: {totalWounds}</p>
       <Footer />

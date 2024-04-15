@@ -1,0 +1,15 @@
+/* FightPhase.module.css */
+
+.container {
+    text-align: center;
+  }
+  
+  .resultsContainer {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .column {
+    flex: 1;
+  }
+  
