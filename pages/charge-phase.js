@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 
 const ChargePhase = () => {
   const [unitCount, setUnitCount] = useState(1);
+  const [chargeRoll, setChargeRoll] = useState(null);
   const [chargeResult, setChargeResult] = useState('');
 
   const rollDice = () => {
@@ -16,11 +17,11 @@ const ChargePhase = () => {
     const chargeRoll1 = rollDice();
     const chargeRoll2 = rollDice();
     const totalChargeRoll = chargeRoll1 + chargeRoll2;
-    setChargeResult(`Charge Roll: ${chargeRoll1} + ${chargeRoll2} = ${totalChargeRoll}`);
+    setChargeRoll(totalChargeRoll);
 
     // Logic to check if charge is successful
     // Assuming successful charge for demonstration
-    setChargeResult(chargeResult + ' - Charge Successful');
+    setChargeResult('Charge Successful');
   };
 
   return (
@@ -34,9 +35,8 @@ const ChargePhase = () => {
         </label>
       </div>
       <button onClick={performCharge}>Perform Charge</button>
-      {chargeResult && (
-        <p>{chargeResult}</p>
-      )}
+      <p>Charge Roll: {chargeRoll !== null ? chargeRoll : 'N/A'}</p>
+      <p>{chargeResult}</p>
       <Footer />
     </div>
   );
