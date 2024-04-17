@@ -7,6 +7,7 @@ import styles from './FightPhase.module.css'; // Import CSS file for styling
 
 const FightPhase = () => {
   const [unitCount, setUnitCount] = useState(1);
+  const [attacksPerUnit, setAttacksPerUnit] = useState(1);
   const [hits, setHits] = useState([]);
   const [wounds, setWounds] = useState([]);
   const [saves, setSaves] = useState([]);
@@ -37,34 +38,36 @@ const FightPhase = () => {
     const damageResults = [];
 
     for (let i = 0; i < unitCount; i++) {
-      const hitRoll = rollDice();
-      const woundRoll = rollDice();
-      const saveRoll = rollDice();
-      const damageRoll = rollDice();
-      const fnPRoll = fnPEnabled ? rollDice() : null;
+      for (let j = 0; j < attacksPerUnit; j++) {
+        const hitRoll = rollDice();
+        const woundRoll = rollDice();
+        const saveRoll = rollDice();
+        const damageRoll = rollDice();
+        const fnPRoll = fnPEnabled ? rollDice() : null;
 
-      const hitSuccess = hitRoll >= ws;
-      const woundSuccess = woundRoll >= s;
-      const saveSuccess = saveRoll >= save;
+        const hitSuccess = hitRoll >= ws;
+        const woundSuccess = woundRoll >= s;
+        const saveSuccess = saveRoll >= save;
 
-      hitsResult.push({ roll: hitRoll, success: hitSuccess });
-      woundsResult.push({ roll: woundRoll, success: woundSuccess });
-      savesResult.push({ roll: saveRoll, success: saveSuccess });
-      damageResult.push(damageRoll);
-      fnPRollsResult.push(fnPRoll);
+        hitsResult.push({ roll: hitRoll, success: hitSuccess });
+        woundsResult.push({ roll: woundRoll, success: woundSuccess });
+        savesResult.push({ roll: saveRoll, success: saveSuccess });
+        damageResult.push(damageRoll);
+        fnPRollsResult.push(fnPRoll);
 
-      let remainingDamage = damageRoll;
-      if (saveSuccess && !fnPEnabled) {
-        remainingDamage = 0;
-      } else if (saveSuccess && fnPEnabled) {
-        const fnPCount = fnPValue > 0 ? fnPValue : 0;
-        for (let j = 0; j < fnPCount; j++) {
-          const fnPRoll = rollDice();
-          if (fnPRoll >= 5) remainingDamage--;
+        let remainingDamage = damageRoll;
+        if (saveSuccess && !fnPEnabled) {
+          remainingDamage = 0;
+        } else if (saveSuccess && fnPEnabled) {
+          const fnPCount = fnPValue > 0 ? fnPValue : 0;
+          for (let k = 0; k < fnPCount; k++) {
+            const fnPRoll = rollDice();
+            if (fnPRoll >= 5) remainingDamage--;
+          }
+          remainingDamage = Math.max(0, remainingDamage);
         }
-        remainingDamage = Math.max(0, remainingDamage);
+        damageResults.push(remainingDamage);
       }
-      damageResults.push(remainingDamage);
     }
 
     setHits(hitsResult);
@@ -102,6 +105,12 @@ const FightPhase = () => {
         <label>
           Number of Units:
           <input type="number" value={unitCount} onChange={(e) => setUnitCount(parseInt(e.target.value))} />
+        </label>
+      </div>
+      <div>
+        <label>
+          Attacks per Unit:
+          <input type="number" value={attacksPerUnit} onChange={(e) => setAttacksPerUnit(parseInt(e.target.value))} />
         </label>
       </div>
       <div>
@@ -201,4 +210,3 @@ const FightPhase = () => {
 };
 
 export default FightPhase;
-
