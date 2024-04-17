@@ -5,7 +5,8 @@ import Link from 'next/link';
 export default function Header({ title }) {
   return (
     <div>
-      <h1 className="title">{title}</h1>
+      <h1 className="title">Warhammer Gameplay Dice Roller</h1>
+      <h2 className="title">{title}</h2>
       <div className="phase-buttons">
         <Link href="/command-phase"><a><button className="phase-button">Command Phase</button></a></Link>
         <Link href="/movement-phase"><a><button className="phase-button">Movement Phase</button></a></Link>
