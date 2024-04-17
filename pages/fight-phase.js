@@ -16,8 +16,11 @@ const FightPhase = () => {
   const [fnPValue, setFnPValue] = useState(0);
   const [invulEnabled, setInvulEnabled] = useState(false);
   const [invulValue, setInvulValue] = useState(0);
+  const [ws, setWs] = useState(3);
+  const [s, setS] = useState(4);
+  const [save, setSave] = useState(4);
   const [fnPRolls, setFnPRolls] = useState([]);
-  const [invulRolls, setInvulRolls] = useState([]);
+  const [damageResults, setDamageResults] = useState([]);
 
   const rollDice = () => {
     return Math.floor(Math.random() * 6) + 1;
@@ -29,7 +32,7 @@ const FightPhase = () => {
     const savesResult = [];
     const damageResult = [];
     const fnPRollsResult = [];
-    const invulRollsResult = [];
+    const damageResults = [];
 
     for (let i = 0; i < unitCount; i++) {
       const hitRoll = rollDice();
@@ -37,18 +40,29 @@ const FightPhase = () => {
       const saveRoll = rollDice();
       const damageRoll = rollDice();
       const fnPRoll = fnPEnabled ? rollDice() : null;
-      const invulRoll = invulEnabled ? rollDice() : null;
 
-      const hitSuccess = hitRoll >= 3; // Assuming Weapon Skill (WS) or Ballistic Skill (BS) is 3+
-      const woundSuccess = woundRoll >= 4; // Assuming Strength (S) > Target's Toughness (T)
-      const saveSuccess = saveRoll >= 4; // Assuming average save roll
+      const hitSuccess = hitRoll >= ws;
+      const woundSuccess = woundRoll >= s;
+      const saveSuccess = saveRoll >= save;
 
       hitsResult.push({ roll: hitRoll, success: hitSuccess });
       woundsResult.push({ roll: woundRoll, success: woundSuccess });
       savesResult.push({ roll: saveRoll, success: saveSuccess });
       damageResult.push(damageRoll);
-      if (fnPEnabled) fnPRollsResult.push(fnPRoll);
-      if (invulEnabled) invulRollsResult.push(invulRoll);
+      fnPRollsResult.push(fnPRoll);
+
+      let remainingDamage = damageRoll;
+      if (saveSuccess && !fnPEnabled) {
+        remainingDamage = 0;
+      } else if (saveSuccess && fnPEnabled) {
+        const fnPCount = fnPValue > 0 ? fnPValue : 0;
+        for (let j = 0; j < fnPCount; j++) {
+          const fnPRoll = rollDice();
+          if (fnPRoll >= 5) remainingDamage--;
+        }
+        remainingDamage = Math.max(0, remainingDamage);
+      }
+      damageResults.push(remainingDamage);
     }
 
     setHits(hitsResult);
@@ -56,9 +70,9 @@ const FightPhase = () => {
     setSaves(savesResult);
     setDamage(damageResult);
     setFnPRolls(fnPRollsResult);
-    setInvulRolls(invulRollsResult);
+    setDamageResults(damageResults);
 
-    const total = damageResult.reduce((acc, curr) => acc + curr, 0);
+    const total = damageResults.reduce((acc, curr) => acc + curr, 0);
     setTotalWounds(total);
   };
 
@@ -102,6 +116,24 @@ const FightPhase = () => {
           <input type="number" value={invulValue} onChange={handleInvulChange} placeholder="Invulnerable Save Value" />
         )}
       </div>
+      <div>
+        <label>
+          Weapon Skill (WS):
+          <input type="number" value={ws} onChange={(e) => setWs(parseInt(e.target.value))} />
+        </label>
+      </div>
+      <div>
+        <label>
+          Strength (S):
+          <input type="number" value={s} onChange={(e) => setS(parseInt(e.target.value))} />
+        </label>
+      </div>
+      <div>
+        <label>
+          Save (Assuming average save roll):
+          <input type="number" value={save} onChange={(e) => setSave(parseInt(e.target.value))} />
+        </label>
+      </div>
       <button onClick={handleAttack}>Perform Attacks</button>
       <h3>Attack Results</h3>
       <div className={styles.resultContainer}>
@@ -131,20 +163,10 @@ const FightPhase = () => {
         </div>
         {fnPEnabled && (
           <div className={styles.column}>
-            <h4>FNP</h4>
+            <h4>FnP</h4>
             <ul>
               {fnPRolls.map((roll, index) => (
-                <li key={index}>Unit {index + 1}: {roll}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {invulEnabled && (
-          <div className={styles.column}>
-            <h4>Invul</h4>
-            <ul>
-              {invulRolls.map((roll, index) => (
-                <li key={index}>Unit {index + 1}: {roll}</li>
+                <li key={index}>Unit {index + 1}: {roll >= 5 ? "Success" : "Fail"}</li>
               ))}
             </ul>
           </div>
@@ -152,7 +174,7 @@ const FightPhase = () => {
         <div className={styles.column}>
           <h4>Damage</h4>
           <ul>
-            {damage.map((value, index) => (
+            {damageResults.map((value, index) => (
               <li key={index}>Unit {index + 1}: {value}</li>
             ))}
           </ul>
