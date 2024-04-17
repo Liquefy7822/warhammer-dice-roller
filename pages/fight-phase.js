@@ -19,6 +19,8 @@ const FightPhase = () => {
   const [ws, setWs] = useState(3);
   const [s, setS] = useState(4);
   const [save, setSave] = useState(4);
+  const [unitWounds, setUnitWounds] = useState(1);
+  const [unitToughness, setUnitToughness] = useState(3);
   const [fnPRolls, setFnPRolls] = useState([]);
   const [damageResults, setDamageResults] = useState([]);
 
@@ -103,6 +105,18 @@ const FightPhase = () => {
         </label>
       </div>
       <div>
+        <label>
+          Wounds per Unit:
+          <input type="number" value={unitWounds} onChange={(e) => setUnitWounds(parseInt(e.target.value))} />
+        </label>
+      </div>
+      <div>
+        <label>
+          Toughness per Unit:
+          <input type="number" value={unitToughness} onChange={(e) => setUnitToughness(parseInt(e.target.value))} />
+        </label>
+      </div>
+      <div>
         <input type="checkbox" id="fnPToggle" checked={fnPEnabled} onChange={handleFnPToggle} />
         <label htmlFor="fnPToggle">Feel No Pain</label>
         {fnPEnabled && (
@@ -115,24 +129,6 @@ const FightPhase = () => {
         {invulEnabled && (
           <input type="number" value={invulValue} onChange={handleInvulChange} placeholder="Invulnerable Save Value" />
         )}
-      </div>
-      <div>
-        <label>
-          Weapon Skill (WS):
-          <input type="number" value={ws} onChange={(e) => setWs(parseInt(e.target.value))} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Strength (S):
-          <input type="number" value={s} onChange={(e) => setS(parseInt(e.target.value))} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Save (Assuming average save roll):
-          <input type="number" value={save} onChange={(e) => setSave(parseInt(e.target.value))} />
-        </label>
       </div>
       <button onClick={handleAttack}>Perform Attacks</button>
       <h3>Attack Results</h3>
@@ -163,7 +159,7 @@ const FightPhase = () => {
         </div>
         {fnPEnabled && (
           <div className={styles.column}>
-            <h4>FnP</h4>
+            <h4>FNP</h4>
             <ul>
               {fnPRolls.map((roll, index) => (
                 <li key={index}>Unit {index + 1}: {roll >= 5 ? "Success" : "Fail"}</li>
@@ -187,4 +183,3 @@ const FightPhase = () => {
 };
 
 export default FightPhase;
-
