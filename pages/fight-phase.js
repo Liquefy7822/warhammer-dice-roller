@@ -117,6 +117,24 @@ const FightPhase = () => {
         </label>
       </div>
       <div>
+        <label>
+          Weapon Skill (WS):
+          <input type="number" value={ws} onChange={(e) => setWs(parseInt(e.target.value))} />
+        </label>
+      </div>
+      <div>
+        <label>
+          Strength (S):
+          <input type="number" value={s} onChange={(e) => setS(parseInt(e.target.value))} />
+        </label>
+      </div>
+      <div>
+        <label>
+          Save:
+          <input type="number" value={save} onChange={(e) => setSave(parseInt(e.target.value))} />
+        </label>
+      </div>
+      <div>
         <input type="checkbox" id="fnPToggle" checked={fnPEnabled} onChange={handleFnPToggle} />
         <label htmlFor="fnPToggle">Feel No Pain</label>
         {fnPEnabled && (
@@ -183,3 +201,4 @@ const FightPhase = () => {
 };
 
 export default FightPhase;
+
