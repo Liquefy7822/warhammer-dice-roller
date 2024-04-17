@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const ReanimationProtocols = () => {
-  const [allMaxHealth, setAllMaxHealth] = useState(false);
+  const [unitsWithWounds, setUnitsWithWounds] = useState(true);
   const [reanimationResult, setReanimationResult] = useState('');
 
   const rollDice = () => {
@@ -12,13 +12,12 @@ const ReanimationProtocols = () => {
 
   const performReanimation = () => {
     const roll = rollDice();
-    // Dividing the result by 2 and rounding up to get the D3 result
-    const wounds = Math.ceil(roll / 2);
+    const wounds = roll === 6 ? 3 : roll === 5 ? 2 : 1;
 
-    if (allMaxHealth) {
-      setReanimationResult(`Revive all units in the group`);
+    if (unitsWithWounds) {
+      setReanimationResult(`Revive ${wounds} units with 1 wound each`);
     } else {
-      setReanimationResult(`Total wounds reanimated: ${wounds}`);
+      setReanimationResult(`Revive ${wounds} units`);
     }
   };
 
@@ -29,11 +28,11 @@ const ReanimationProtocols = () => {
       <div>
         <input
           type="checkbox"
-          id="allMaxHealth"
-          checked={allMaxHealth}
-          onChange={(e) => setAllMaxHealth(e.target.checked)}
+          id="unitsWithWounds"
+          checked={unitsWithWounds}
+          onChange={(e) => setUnitsWithWounds(e.target.checked)}
         />
-        <label htmlFor="allMaxHealth">All models are at max health</label>
+        <label htmlFor="unitsWithWounds">Units have remaining wounds</label>
       </div>
       <button onClick={performReanimation}>Perform Reanimation</button>
       {reanimationResult && (
@@ -45,4 +44,3 @@ const ReanimationProtocols = () => {
 };
 
 export default ReanimationProtocols;
-
