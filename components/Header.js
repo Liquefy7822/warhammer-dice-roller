@@ -12,6 +12,7 @@ export default function Header({ title }) {
         <Link href="/shooting-phase"><a><button className="phase-button">Shooting Phase</button></a></Link>
         <Link href="/charge-phase"><a><button className="phase-button">Charge Phase</button></a></Link>
         <Link href="/fight-phase"><a><button className="phase-button">Fight Phase</button></a></Link>
+        <Link href="/reanimation-protocol"><a><button className="phase-button">Reanimation Protocols</button></a></Link>
       </div>
     </div>
   );
