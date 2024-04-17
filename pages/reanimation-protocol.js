@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const ReanimationProtocols = () => {
-  const [unitsWithWounds, setUnitsWithWounds] = useState(true);
+  const [fullWounds, setFullWounds] = useState(false);
   const [reanimationResult, setReanimationResult] = useState('');
 
   const rollDice = () => {
@@ -14,10 +14,10 @@ const ReanimationProtocols = () => {
     const roll = rollDice();
     const wounds = roll === 6 ? 3 : roll === 5 ? 2 : 1;
 
-    if (unitsWithWounds) {
-      setReanimationResult(`Revive ${wounds} units with 1 wound each`);
-    } else {
+    if (fullWounds) {
       setReanimationResult(`Revive ${wounds} units`);
+    } else {
+      setReanimationResult(`Heal ${wounds} wounds`);
     }
   };
 
@@ -28,11 +28,11 @@ const ReanimationProtocols = () => {
       <div>
         <input
           type="checkbox"
-          id="unitsWithWounds"
-          checked={unitsWithWounds}
-          onChange={(e) => setUnitsWithWounds(e.target.checked)}
+          id="fullWounds"
+          checked={fullWounds}
+          onChange={(e) => setFullWounds(e.target.checked)}
         />
-        <label htmlFor="unitsWithWounds">Units have remaining wounds</label>
+        <label htmlFor="fullWounds">Units have full wounds</label>
       </div>
       <button onClick={performReanimation}>Perform Reanimation</button>
       {reanimationResult && (
