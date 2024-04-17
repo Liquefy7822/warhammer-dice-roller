@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 
 const ShootingPhase = () => {
   const [unitCount, setUnitCount] = useState(1);
+  const [shotsPerUnit, setShotsPerUnit] = useState(1);
   const [ws, setWs] = useState(3);
   const [s, setS] = useState(4);
   const [save, setSave] = useState(4);
@@ -20,23 +21,25 @@ const ShootingPhase = () => {
   const performShooting = () => {
     let totalHits = 0;
     for (let i = 0; i < unitCount; i++) {
-      const hitRoll = rollDice();
-      if (hitRoll >= ws) {
-        const woundRoll = rollDice();
-        if (woundRoll >= s) {
-          const saveRoll = rollDice();
-          if (saveRoll >= save) {
-            let actualWounds = 1;
-            if (invul > 0 && rollDice() >= invul) {
-              actualWounds = 0;
-            } else if (fnp > 0) {
-              for (let j = 0; j < actualWounds; j++) {
-                if (rollDice() >= fnp) {
-                  actualWounds--;
+      for (let j = 0; j < shotsPerUnit; j++) {
+        const hitRoll = rollDice();
+        if (hitRoll >= ws) {
+          const woundRoll = rollDice();
+          if (woundRoll >= s) {
+            const saveRoll = rollDice();
+            if (saveRoll >= save) {
+              let actualWounds = 1;
+              if (invul > 0 && rollDice() >= invul) {
+                actualWounds = 0;
+              } else if (fnp > 0) {
+                for (let k = 0; k < actualWounds; k++) {
+                  if (rollDice() >= fnp) {
+                    actualWounds--;
+                  }
                 }
               }
+              totalHits += actualWounds;
             }
-            totalHits += actualWounds;
           }
         }
       }
@@ -52,6 +55,12 @@ const ShootingPhase = () => {
         <label>
           Number of Units:
           <input type="number" value={unitCount} onChange={(e) => setUnitCount(parseInt(e.target.value))} />
+        </label>
+      </div>
+      <div>
+        <label>
+          Shots per Unit:
+          <input type="number" value={shotsPerUnit} onChange={(e) => setShotsPerUnit(parseInt(e.target.value))} />
         </label>
       </div>
       <div>
@@ -94,3 +103,4 @@ const ShootingPhase = () => {
 };
 
 export default ShootingPhase;
+
